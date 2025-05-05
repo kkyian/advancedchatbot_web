@@ -1,8 +1,9 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 import requests
+import os
 
 app = Flask(__name__)
-app.secret_key = "n/a"  # Needed for session management
+app.secret_key = os.environ.get("n/a", "n/a")  # Use env var or fallback
 
 CHATBOT_URL = "https://advancedchatbot.onrender.com/chat"
 
@@ -37,4 +38,5 @@ def reset():
     return redirect(url_for("chat"))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
